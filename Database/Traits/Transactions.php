@@ -47,7 +47,7 @@ trait Transactions
         if ($this->transactionStrategy === null) {
             $this->transactionStrategy = new TransactionStrategy(
                 provider: $container->get(DatabaseProviderInterface::class),
-                kernel: $this->client,
+                kernel: $this->client->getKernel(),
             );
         }
 

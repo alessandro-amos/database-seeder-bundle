@@ -47,7 +47,7 @@ trait DatabaseMigrations
     {
         if ($this->migrationStrategy === null) {
             $this->migrationStrategy = new MigrationStrategy(
-                kernel: $this->client
+                kernel: $this->client->getKernel()
             );
         }
 
