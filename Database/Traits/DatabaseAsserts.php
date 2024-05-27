@@ -23,7 +23,7 @@ trait DatabaseAsserts
             $entity = $entity::class;
         }
 
-        return new EntityAssertion($entity, self::$sharedKernel->getContainer()->get(ORMInterface::class));
+        return new EntityAssertion($entity, $this->client->getContainer()->get(ORMInterface::class));
     }
 
     /**
@@ -33,6 +33,6 @@ trait DatabaseAsserts
      */
     public function assertTable(string $table): TableAssertion
     {
-        return new TableAssertion($table, self::$sharedKernel->getContainer()->get(DatabaseInterface::class));
+        return new TableAssertion($table, $this->client->getContainer()->get(DatabaseInterface::class));
     }
 }

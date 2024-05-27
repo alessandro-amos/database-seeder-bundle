@@ -44,7 +44,7 @@ trait ShowQueries
         /**
          * @var DatabaseInterface $database
          */
-        $database = self::$sharedKernel->getContainer()->get(DatabaseInterface::class);
+        $database = $this->client->getContainer()->get(DatabaseInterface::class);
 
         return $database->getDriver();
     }

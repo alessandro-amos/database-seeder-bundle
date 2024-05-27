@@ -6,7 +6,6 @@ namespace Alms\Bundle\DatabaseSeederBundle\Database\Traits;
 
 use Alms\Bundle\DatabaseSeederBundle\Database\Strategy\SqlFileStrategy;
 use Cycle\Database\DatabaseProviderInterface;
-use PHPUnit\Framework\Attributes;
 
 trait DatabaseFromSQL
 {
@@ -30,13 +29,11 @@ trait DatabaseFromSQL
         $this->afterDropDatabase();
     }
 
-    #[Attributes\Before]
     protected function setUpDatabaseFromSQL(): void
     {
         $this->prepareDatabase();
     }
 
-    #[Attributes\After]
     protected function tearDownDatabaseFromSQL(): void
     {
         $this->dropDatabase();
@@ -47,7 +44,7 @@ trait DatabaseFromSQL
         if ($this->sqlFileStrategy === null) {
             $this->sqlFileStrategy = new SqlFileStrategy(
                 preparePath: $this->getPrepareSQLFilePath(),
-                provider: self::$sharedKernel->getContainer()->get(DatabaseProviderInterface::class),
+                provider: $this->client->getContainer()->get(DatabaseProviderInterface::class),
                 dropPath: $this->getDropSQLFilePath(),
             );
         }

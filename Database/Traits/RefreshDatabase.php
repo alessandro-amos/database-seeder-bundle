@@ -7,9 +7,6 @@ namespace Alms\Bundle\DatabaseSeederBundle\Database\Traits;
 use Alms\Bundle\DatabaseSeederBundle\Database\Cleaner;
 use Alms\Bundle\DatabaseSeederBundle\Database\Strategy\RefreshStrategy;
 use Cycle\Database\DatabaseProviderInterface;
-use Cycle\Migrations\Config\MigrationConfig;
-use PHPUnit\Framework\Attributes\After;
-use Spiral\DatabaseSeeder\Attribute\RefreshDatabase as RefreshDatabaseAttribute;
 
 trait RefreshDatabase
 {
@@ -27,7 +24,6 @@ trait RefreshDatabase
         $this->afterRefreshingDatabase();
     }
 
-    #[After]
     protected function tearDownRefreshDatabase(string $database = null, array $except = []): void
     {
         $this->getRefreshStrategy()->setDatabase($database);
@@ -40,7 +36,7 @@ trait RefreshDatabase
     {
         if ($this->refreshStrategy === null) {
             $this->refreshStrategy = new RefreshStrategy(
-                cleaner: new Cleaner(self::$sharedKernel->getContainer()->get(DatabaseProviderInterface::class)),
+                cleaner: new Cleaner($this->client->getContainer()->get(DatabaseProviderInterface::class)),
             );
         }
 

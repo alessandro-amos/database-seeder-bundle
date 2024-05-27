@@ -27,7 +27,7 @@ trait Helper
 
     public function getCurrentDatabase(): DatabaseInterface
     {
-        return self::$sharedKernel->getContainer()->get(DatabaseInterface::class);
+        return $this->client->getContainer()->get(DatabaseInterface::class);
     }
 
     public function getCurrentDatabaseDriver(): DriverInterface
@@ -37,17 +37,17 @@ trait Helper
 
     public function getCurrentDatabaseProvider(): DatabaseProviderInterface
     {
-        return self::$sharedKernel->getContainer()->get(DatabaseProviderInterface::class);
+        return $this->client->getContainer()->get(DatabaseProviderInterface::class);
     }
 
     public function getOrm(): ORMInterface
     {
-        return self::$sharedKernel->getContainer()->get(ORMInterface::class);
+        return $this->client->getContainer()->get(ORMInterface::class);
     }
 
     public function getEntityManager(): EntityManagerInterface
     {
-        return self::$sharedKernel->getContainer()->get(EntityManagerInterface::class);
+        return $this->client->getContainer()->get(EntityManagerInterface::class);
     }
 
     public function detachEntityFromIdentityMap(object $entity): void

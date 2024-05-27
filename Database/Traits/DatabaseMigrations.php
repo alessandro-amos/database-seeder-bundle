@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Alms\Bundle\DatabaseSeederBundle\Database\Traits;
 
 use Alms\Bundle\DatabaseSeederBundle\Database\Strategy\MigrationStrategy;
-use PHPUnit\Framework\Attributes\Before;
-use PHPUnit\Framework\Attributes\After;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 trait DatabaseMigrations
 {
@@ -35,14 +32,12 @@ trait DatabaseMigrations
         $this->afterRollbackDatabase();
     }
 
-    #[Before]
     protected function setUpDatabaseMigrations(): void
     {
         $this->runDatabaseMigrations();
     }
 
 
-    #[After]
     protected function tearDownDatabaseMigrations(): void
     {
         $this->runDatabaseRollback();
@@ -50,11 +45,9 @@ trait DatabaseMigrations
 
     protected function getMigrationStrategy(): MigrationStrategy
     {
-        $container = self::$sharedKernel->getContainer();
-
         if ($this->migrationStrategy === null) {
             $this->migrationStrategy = new MigrationStrategy(
-                kernel: self::$sharedKernel
+                kernel: $this->client
             );
         }
 

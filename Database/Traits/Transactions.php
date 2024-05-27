@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Alms\Bundle\DatabaseSeederBundle\Database\Traits;
 
 use Alms\Bundle\DatabaseSeederBundle\Database\Strategy\TransactionStrategy;
-use Cycle\Database\DatabaseInterface;
 use Cycle\Database\DatabaseProviderInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
-use PHPUnit\Framework\Attributes;
 
 trait Transactions
 {
@@ -33,13 +30,11 @@ trait Transactions
         $this->afterRollbackTransaction();
     }
 
-    #[Attributes\Before]
     protected function setUpTransactions(): void
     {
         $this->beginTransaction();
     }
 
-    #[Attributes\After]
     protected function tearDownTransactions(): void
     {
         $this->rollbackTransaction();
@@ -47,12 +42,12 @@ trait Transactions
 
     protected function getTransactionStrategy(): TransactionStrategy
     {
-        $container = self::$sharedKernel->getContainer();
+        $container = $this->client->getContainer();
 
         if ($this->transactionStrategy === null) {
             $this->transactionStrategy = new TransactionStrategy(
                 provider: $container->get(DatabaseProviderInterface::class),
-                kernel: self::$sharedKernel,
+                kernel: $this->client,
             );
         }
 
